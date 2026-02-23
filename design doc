@@ -1,0 +1,74 @@
+Design Document: Personal Finance & Expense Manager
+1. Design Philosophy
+The interface follows a "Dark-Centric Professional" theme. The goal is to make financial data feel less like a spreadsheet and more like an intelligent command center.
+
+Intelligence: Use high-contrast accents to highlight insights.
+
+Simplicity: Minimalist borders and generous whitespace (negative space) to prevent data fatigue.
+
+Style: A sophisticated palette that conveys security and modern fintech vibes.
+
+2. Visual Style Guide
+2.1 Color Palette
+Inspired by the Moneta aesthetic, the application utilizes a deep-space background with vibrant neon highlights.
+
+Primary Background: #010103 (Deep Obsidian) – Provides a high-end, sleek foundation.
+
+Surface/Card Color: #0F0F12 – Slightly lighter than the background to create depth through layering.
+
+Primary Accent: #3A41B2 to #1A1999 (Electric Violet/Indigo Gradient) – Used for primary buttons, active states, and branding elements.
+
+Success/Income: #00C896 (Mint Green) – For positive cash flow and budget-safe indicators.
+
+Warning/Expense: #FF4C61 (Soft Coral) – For expenditures and budget alerts.
+
+Typography: #DEE1E5 (Off-White) for headings; #9B9AA2 (Slate Gray) for secondary body text.
+
+2.2 Typography
+Headings: Sans-serif (e.g., Inter or Montserrat), Semi-bold. Focused on readability at large scales for dashboard totals.
+
+Body/Data: Monospaced-leaning sans-serif (e.g., JetBrains Mono or Roboto Mono) for numerical values to ensure perfect vertical alignment in transaction lists.
+
+3. UI Components & Layout
+3.1 The "Glassmorphism" Dashboard
+The main interface features floating "cards" with subtle borders.
+
+The Hero Stat: A large, centered display of the "Total Monthly Spend" using a gradient text effect.
+
+Insight Cards: Compact modules showing "Highest Spending Category" and "Remaining Budget" using circular progress rings.
+
+Glass Effect: Cards should have a subtle 1px border (rgba(222, 225, 229, 0.1)) and a slight backdrop-blur to create a premium feel.
+
+3.2 Interaction Design
+Hover States: Buttons should utilize a soft outer glow (drop-shadow) in the primary accent color when hovered.
+
+Empty States: When no transactions exist, use a minimalist SVG illustration with the indigo accent color to guide the user to "Add First Expense."
+
+Transitions: Smooth 0.3s ease-in-out transitions for opening modals or switching between monthly views.
+
+4. Key Screens & Elements
+4.1 Global Sidebar / Navigation
+A slim, vertical sidebar on the left.
+
+Icons: Simple, linear stroke icons (2px weight).
+
+Active State: A vertical indigo pill-shaped indicator next to the active menu item.
+
+4.2 Transaction List
+Moving away from standard tables to a "Activity Feed" style.
+
+Iconography: Each category (Food, Tech, Rent) has a unique, circular-masked icon.
+
+Typography Hierarchy: Transaction Name (Bold/White) over Date (Small/Gray), with the Amount aligned to the far right.
+
+4.3 Data Visualization
+The Moneta Chart: A custom-styled Doughnut chart for category breakdown.
+
+Palette: Instead of a rainbow of colors, use varying shades of the primary Indigo and Violet to maintain a cohesive brand look.
+
+5. Mobile Responsiveness
+Stacking Logic: On mobile, the Sidebar collapses into a bottom navigation bar.
+
+Touch Targets: All actionable elements (buttons, list items) maintain a minimum height of 48px for ease of use.
+
+Condensed Dashboard: The Hero Stat remains prominent, but secondary insight cards scroll horizontally.
