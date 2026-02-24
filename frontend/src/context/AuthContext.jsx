@@ -38,13 +38,23 @@ export const AuthProvider = ({ children }) => {
     };
 
     const login = async (email, password) => {
-        const res = await axios.post('/api/auth/login', { email, password });
-        setToken(res.data.token);
+        try {
+            const res = await axios.post('/api/auth/login', { email, password });
+            setToken(res.data.token);
+        } catch (err) {
+            console.error('Login error:', err.response?.data || err.message);
+            throw err;
+        }
     };
 
     const signup = async (name, email, password) => {
-        const res = await axios.post('/api/auth/register', { name, email, password });
-        setToken(res.data.token);
+        try {
+            const res = await axios.post('/api/auth/register', { name, email, password });
+            setToken(res.data.token);
+        } catch (err) {
+            console.error('Signup error:', err.response?.data || err.message);
+            throw err;
+        }
     };
 
     const logout = () => {
