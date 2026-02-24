@@ -67,7 +67,7 @@ const Dashboard = () => {
                 <div className="glass-card md:col-span-2 flex flex-col justify-center relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
                     <div className="flex items-start">
-                        <div className="p-3 rounded-xl bg-surface/50 backdrop-blur-md border border-[rgba(222,225,229,0.1)] mr-4 shadow-lg">
+                        <div className="p-3 rounded-xl bg-surface/50 backdrop-blur-md border border-white/10 mr-4 shadow-lg">
                             <IndianRupee className="text-primary" size={28} />
                         </div>
                         <div>
@@ -187,9 +187,9 @@ const Dashboard = () => {
                     <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                         {recentTransactions.length > 0 ? (
                             recentTransactions.map((tx) => (
-                                <div key={tx._id} className="group flex justify-between items-center p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(222,225,229,0.05)] hover:bg-[rgba(255,255,255,0.06)] hover:border-[rgba(222,225,229,0.15)] hover:shadow-lg transition-all duration-300">
+                                <div key={tx._id} className="group flex justify-between items-center p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/5 hover:border-white/10 hover:shadow-lg transition-all duration-300">
                                     <div className="flex items-center">
-                                        <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_0_15px_rgba(58,65,178,0.5)] transition-all duration-300">
+                                        <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white group-hover:shadow-lg transition-all duration-300">
                                             <Tags size={20} />
                                         </div>
                                         <div>

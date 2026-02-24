@@ -22,7 +22,7 @@
 
 @layer components {
   .glass-card {
-    @apply bg-surface border border-[rgba(222, 225, 229, 0.08)] backdrop-blur-xl rounded-xl p-6 shadow-2xl;
+    @apply bg-surface border border-white/10 backdrop-blur-xl rounded-xl p-6 shadow-2xl;
   }
 
   .primary-gradient {
@@ -30,14 +30,27 @@
   }
 
   .btn-primary {
-    @apply primary-gradient px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(58, 65, 178, 0.6)] active:scale-95;
+    @apply bg-gradient-to-br from-[#5E65D7] via-[#3A41B2] to-[#1A1999] text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95;
+    box-shadow: 0 0 20px rgba(58, 65, 178, 0.6);
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 25px rgba(58, 65, 178, 0.8);
   }
 
   .btn-outline {
-    @apply bg-transparent border border-[rgba(222, 225, 229, 0.2)] text-text-main px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-[rgba(255, 255, 255, 0.05)] active:scale-95 hover:border-text-secondary;
+    @apply bg-transparent border border-white/20 text-text-main px-4 py-2 rounded-lg font-medium transition-all duration-300 active:scale-95 hover:border-text-secondary;
+  }
+
+  .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.05);
   }
 
   .input-field {
-    @apply bg-[rgba(255, 255, 255, 0.02)] border border-[rgba(222, 225, 229, 0.1)] text-text-main rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[rgba(255, 255, 255, 0.04)] transition-all w-full;
+    @apply bg-white/5 border border-white/10 text-text-main rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all w-full;
+  }
+
+  .input-field:focus {
+    background-color: rgba(255, 255, 255, 0.04);
   }
 }

@@ -23,8 +23,8 @@ const Login = () => {
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -z-10 mix-blend-screen animate-pulse" style={{ animationDuration: '4s' }} />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00C896]/10 rounded-full blur-[100px] -z-10 mix-blend-screen animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
 
-            <div className="w-full max-w-md glass-card flex flex-col items-center relative z-10 border-[rgba(255,255,255,0.05)] shadow-2xl">
-                <div className="bg-surface p-4 rounded-xl border border-[rgba(222,225,229,0.1)] mb-6 shadow-lg rotate-3">
+            <div className="w-full max-w-md glass-card flex flex-col items-center relative z-10 border-white/10 shadow-2xl">
+                <div className="bg-surface p-4 rounded-xl border border-white/10 mb-6 shadow-lg rotate-3">
                     <Wallet size={36} className="text-primary -rotate-3" />
                 </div>
                 <h2 className="text-3xl font-bold mb-2 text-text-main bg-gradient-to-r from-white to-text-secondary text-transparent bg-clip-text">Welcome Back</h2>

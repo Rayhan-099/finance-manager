@@ -14,7 +14,7 @@ const Sidebar = () => {
     ];
 
     return (
-        <div className="w-full md:w-64 bg-surface border-t md:border-t-0 md:border-r border-[rgba(222,225,229,0.1)] h-16 md:h-screen fixed bottom-0 md:relative z-10 flex md:flex-col justify-around md:justify-start pt-0 md:pt-8 px-4 md:px-0">
+        <div className="w-full md:w-64 bg-surface border-t md:border-t-0 md:border-r border-white/10 h-16 md:h-screen fixed bottom-0 md:relative z-10 flex md:flex-col justify-around md:justify-start pt-0 md:pt-8 px-4 md:px-0">
 
             {/* Logo Area - Hidden on mobile */}
             <div className="hidden md:flex items-center px-8 mb-8">
@@ -33,8 +33,8 @@ const Sidebar = () => {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center relative justify-center md:justify-start px-3 md:px-4 py-2 md:py-3 rounded-xl transition-all duration-300 ${isActive
-                                ? 'bg-primary/10 text-primary font-semibold shadow-[inset_0_0_20px_rgba(58,65,178,0.1)]'
-                                : 'text-text-secondary hover:text-text-main hover:bg-[rgba(255,255,255,0.03)]'
+                                ? 'bg-primary/10 text-primary font-semibold shadow-lg'
+                                : 'text-text-secondary hover:text-text-main hover:bg-white/5'
                                 }`}
                         >
                             {isActive && (
@@ -45,7 +45,7 @@ const Sidebar = () => {
                                 <span className="hidden md:block ml-3">{item.label}</span>
                             </div>
                             {isActive && (
-                                <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-primary rounded-r-full shadow-[0_0_10px_rgba(58,65,178,0.8)]" />
+                                <div className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-primary rounded-r-full shadow-lg" />
                             )}
                         </Link>
                     );

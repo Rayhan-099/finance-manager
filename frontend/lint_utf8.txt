@@ -1,0 +1,10 @@
+
+> frontend@0.0.0 lint
+> eslint .
+
+
+E:\Vyuk Projects\fahhh\mern\frontend\src\context\AuthContext.jsx
+  4:14  error  Fast refresh only works when a file only exports components. Move your React context(s) to a separate file  react-refresh/only-export-components
+
+✖ 1 problem (1 error, 0 warnings)
+
