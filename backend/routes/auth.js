@@ -88,4 +88,20 @@ router.get('/me', auth, async (req, res) => {
     }
 });
 
+// @route   PUT api/auth/budget
+// @desc    Update user monthly budget
+// @access  Private
+router.put('/budget', auth, async (req, res) => {
+    const { monthlyBudget } = req.body;
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        user.monthlyBudget = monthlyBudget;
+        await user.save();
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;

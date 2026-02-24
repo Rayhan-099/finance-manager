@@ -29,7 +29,7 @@ const Analytics = () => {
         <Layout>
             <div className="mb-8">
                 <h1 className="text-3xl font-bold">Analytics</h1>
-                <p className="text-textSecondary mt-1">Deep dive into your spending habits</p>
+                <p className="text-text-secondary mt-1">Deep dive into your spending habits</p>
             </div>
 
             <div className="glass-card mb-8">
@@ -51,8 +51,8 @@ const Analytics = () => {
                             </BarChart>
                         </ResponsiveContainer>
                     ) : (
-                        <div className="flex h-full items-center justify-center text-textSecondary">
-                            <p>No enough data for analytics.</p>
+                        <div className="flex h-full items-center justify-center text-text-secondary">
+                            <p>Not enough data for analytics.</p>
                         </div>
                     )}
                 </div>

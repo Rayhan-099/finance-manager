@@ -39,30 +39,35 @@ const Transactions = () => {
 
     return (
         <Layout>
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold">All Transactions</h1>
-                <p className="text-textSecondary mt-1">Detailed history of all your expenses</p>
+            <div className="flex justify-between items-center mb-8">
+                <div>
+                    <h1 className="text-3xl font-bold">Transactions</h1>
+                    <p className="text-text-secondary mt-1">Review all your past expenses</p>
+                </div>
+                <button className="btn-outline flex items-center">
+                    <Filter size={20} className="mr-2" /> <span>Filter</span>
+                </button>
             </div>
 
-            <div className="glass-card">
+            <div className="glass-card mb-8 p-1">
                 {transactions.length > 0 ? (
-                    <div className="space-y-4">
+                    <div className="space-y-1">
                         {transactions.map((tx) => (
-                            <div key={tx._id} className="flex justify-between items-center p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(222,225,229,0.05)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-                                <div className="flex items-center">
-                                    <div className="w-12 h-12 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4">
+                            <div key={tx._id} className="group flex flex-col sm:flex-row justify-between sm:items-center p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(222,225,229,0.05)] hover:bg-[rgba(255,255,255,0.04)] transition-all">
+                                <div className="flex items-center mb-3 sm:mb-0">
+                                    <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
                                         <Tags size={20} />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-lg text-textMain">{tx.description || tx.category}</p>
-                                        <p className="text-sm text-textSecondary">{new Date(tx.date).toLocaleDateString()} • {tx.category}</p>
+                                        <p className="font-bold text-text-main text-lg">{tx.description || tx.category}</p>
+                                        <p className="text-sm text-text-secondary">{new Date(tx.date).toLocaleDateString()} • {tx.category}</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-4 text-right">
-                                    <p className="font-mono font-bold text-xl text-warning">-₹{tx.amount}</p>
+                                <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto">
+                                    <p className="font-mono font-bold text-warning text-lg mr-6">-₹{tx.amount}</p>
                                     <button
                                         onClick={() => handleDelete(tx._id)}
-                                        className="p-2 text-textSecondary hover:text-warning hover:bg-warning/10 rounded-lg transition-colors"
+                                        className="text-text-secondary hover:text-warning p-2 rounded-lg hover:bg-warning/10 transition-colors"
                                         title="Delete Expense"
                                     >
                                         <Trash2 size={20} />

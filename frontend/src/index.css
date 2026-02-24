@@ -1,31 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-background: #010103;
+  --color-surface: #0F0F12;
+  --color-primary: #3A41B2;
+  --color-primary-dark: #1A1999;
+  --color-success: #00C896;
+  --color-warning: #FF4C61;
+  --color-text-main: #DEE1E5;
+  --color-text-secondary: #9B9AA2;
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
 
 @layer base {
   body {
-    @apply bg-background text-textMain antialiased font-sans;
+    @apply bg-background text-text-main antialiased font-sans;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-surface border border-[rgba(222,225,229,0.1)] backdrop-blur-md rounded-xl p-6 shadow-lg;
+    @apply bg-surface border border-[rgba(222, 225, 229, 0.08)] backdrop-blur-xl rounded-xl p-6 shadow-2xl;
   }
 
   .primary-gradient {
-    @apply bg-gradient-to-r from-primary to-primary-dark text-white;
+    @apply bg-gradient-to-br from-[#5E65D7] via-[#3A41B2] to-[#1A1999] text-white;
   }
 
   .btn-primary {
-    @apply primary-gradient px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-[0_0_15px_rgba(58,65,178,0.5)];
+    @apply primary-gradient px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(58, 65, 178, 0.6)] active:scale-95;
   }
 
   .btn-outline {
-    @apply bg-transparent border border-[rgba(222,225,229,0.2)] text-textMain px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-[rgba(255,255,255,0.05)];
+    @apply bg-transparent border border-[rgba(222, 225, 229, 0.2)] text-text-main px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-[rgba(255, 255, 255, 0.05)] active:scale-95 hover:border-text-secondary;
   }
 
   .input-field {
-    @apply bg-background border border-[rgba(222,225,229,0.2)] text-textMain rounded-lg px-4 py-2 focus:outline-none focus:border-primary transition-colors w-full;
+    @apply bg-[rgba(255, 255, 255, 0.02)] border border-[rgba(222, 225, 229, 0.1)] text-text-main rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:bg-[rgba(255, 255, 255, 0.04)] transition-all w-full;
   }
 }

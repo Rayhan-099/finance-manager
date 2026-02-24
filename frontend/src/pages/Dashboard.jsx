@@ -2,9 +2,10 @@ import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Layout from '../components/Layout';
 import axios from 'axios';
-import { Plus, IndianRupee, TrendingUp, Tags } from 'lucide-react';
+import { Plus, IndianRupee, TrendingUp, Tags, Target } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import AddExpenseModal from '../components/AddExpenseModal';
+import SetBudgetModal from '../components/SetBudgetModal';
 
 const COLORS = ['#3A41B2', '#1A1999', '#5E65D7', '#868DF0', '#00C896', '#FF4C61'];
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
     const [dashboardData, setDashboardData] = useState({ totalSpend: 0, categoryBreakdown: [] });
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
@@ -50,29 +52,34 @@ const Dashboard = () => {
                     <h1 className="text-3xl font-bold">Overview</h1>
                     <p className="text-textSecondary mt-1">Hello, {user?.name}. Here's your financial summary.</p>
                 </div>
-                <button onClick={() => setIsModalOpen(true)} className="btn-primary flex items-center shadow-primary/20 shadow-lg">
-                    <Plus size={20} className="mr-2" /> <span>Add Expense</span>
-                </button>
+                <div className="flex gap-4">
+                    <button onClick={() => setIsBudgetModalOpen(true)} className="btn-outline flex items-center">
+                        <Target size={20} className="mr-2" /> <span>Set Budget</span>
+                    </button>
+                    <button onClick={() => setIsModalOpen(true)} className="btn-primary flex items-center shadow-primary/20 shadow-lg">
+                        <Plus size={20} className="mr-2" /> <span>Add Expense</span>
+                    </button>
+                </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 {/* Hero Stat */}
                 <div className="glass-card md:col-span-2 flex flex-col justify-center relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                    <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2" />
                     <div className="flex items-start">
-                        <div className="p-3 rounded-xl bg-surface border border-[rgba(222,225,229,0.05)] mr-4">
+                        <div className="p-3 rounded-xl bg-surface/50 backdrop-blur-md border border-[rgba(222,225,229,0.1)] mr-4 shadow-lg">
                             <IndianRupee className="text-primary" size={28} />
                         </div>
                         <div>
                             <p className="text-textSecondary font-medium">Total Monthly Spend</p>
-                            <h2 className="text-5xl font-bold mt-2 font-mono tracking-tight bg-gradient-to-r from-textMain to-textSecondary text-transparent bg-clip-text">
+                            <h2 className="text-5xl font-bold mt-2 font-mono tracking-tight bg-gradient-to-br from-text-main via-white to-text-secondary text-transparent bg-clip-text drop-shadow-sm">
                                 ₹{dashboardData.totalSpend.toLocaleString()}
                             </h2>
                         </div>
                     </div>
                 </div>
 
-                {/* Insight Card */}
+                {/* Insight Card: Top Category */}
                 <div className="glass-card flex flex-col justify-between">
                     <div className="flex items-center text-textSecondary mb-4">
                         <TrendingUp size={20} className="mr-2" />
@@ -87,6 +94,50 @@ const Dashboard = () => {
                         </div>
                     ) : (
                         <p className="text-textSecondary italic">No data yet</p>
+                    )}
+                </div>
+
+                {/* Insight Card: Budget */}
+                <div className="glass-card flex flex-col justify-between">
+                    <div className="flex items-center text-textSecondary mb-4">
+                        <Target size={20} className="mr-2" />
+                        <span className="font-medium">Monthly Budget</span>
+                    </div>
+                    {user?.monthlyBudget ? (() => {
+                        const remaining = user.monthlyBudget - dashboardData.totalSpend;
+                        const percentUsed = (dashboardData.totalSpend / user.monthlyBudget) * 100;
+                        let statusColor = 'text-success';
+                        let barColor = 'bg-success';
+
+                        // Using explicit classes, maybe tailwind doesn't have an orange by default?
+                        // I will use text-warning for > 100% and text-yellow-500 for > 80% (which exists)
+                        if (percentUsed > 100) {
+                            statusColor = 'text-warning';
+                            barColor = 'bg-warning';
+                        } else if (percentUsed > 80) {
+                            statusColor = 'text-yellow-500';
+                            barColor = 'bg-yellow-500';
+                        }
+
+                        return (
+                            <div>
+                                <h3 className={`text-2xl font-bold ${statusColor}`}>
+                                    {remaining >= 0 ? `₹${remaining.toLocaleString()} left` : `₹${Math.abs(remaining).toLocaleString()} over`}
+                                </h3>
+                                <div className="w-full bg-surface h-2 mt-3 rounded-full overflow-hidden">
+                                    <div
+                                        className={`h-full ${barColor}`}
+                                        style={{ width: `${Math.min(percentUsed, 100)}%` }}
+                                    ></div>
+                                </div>
+                                <p className="text-textSecondary mt-2 text-sm">of ₹{user.monthlyBudget.toLocaleString()}</p>
+                            </div>
+                        );
+                    })() : (
+                        <div>
+                            <p className="text-textSecondary italic mb-3">No budget set</p>
+                            <button onClick={() => setIsBudgetModalOpen(true)} className="text-primary text-sm font-medium hover:underline">Set Budget Now</button>
+                        </div>
                     )}
                 </div>
             </div>
@@ -136,14 +187,14 @@ const Dashboard = () => {
                     <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                         {recentTransactions.length > 0 ? (
                             recentTransactions.map((tx) => (
-                                <div key={tx._id} className="flex justify-between items-center p-4 rounded-lg bg-[rgba(255,255,255,0.02)] border border-[rgba(222,225,229,0.05)] hover:bg-[rgba(255,255,255,0.04)] transition-colors">
+                                <div key={tx._id} className="group flex justify-between items-center p-4 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(222,225,229,0.05)] hover:bg-[rgba(255,255,255,0.06)] hover:border-[rgba(222,225,229,0.15)] hover:shadow-lg transition-all duration-300">
                                     <div className="flex items-center">
-                                        <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-4">
-                                            <Tags size={18} />
+                                        <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white group-hover:shadow-[0_0_15px_rgba(58,65,178,0.5)] transition-all duration-300">
+                                            <Tags size={20} />
                                         </div>
                                         <div>
-                                            <p className="font-bold text-textMain">{tx.description || tx.category}</p>
-                                            <p className="text-xs text-textSecondary">{new Date(tx.date).toLocaleDateString()} • {tx.category}</p>
+                                            <p className="font-bold text-text-main text-lg">{tx.description || tx.category}</p>
+                                            <p className="text-sm text-text-secondary">{new Date(tx.date).toLocaleDateString()} • {tx.category}</p>
                                         </div>
                                     </div>
                                     <div className="text-right">
@@ -163,6 +214,12 @@ const Dashboard = () => {
             <AddExpenseModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
+                onSuccess={fetchData}
+            />
+
+            <SetBudgetModal
+                isOpen={isBudgetModalOpen}
+                onClose={() => setIsBudgetModalOpen(false)}
                 onSuccess={fetchData}
             />
         </Layout>

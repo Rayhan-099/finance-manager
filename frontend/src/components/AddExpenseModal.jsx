@@ -35,7 +35,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
             <div className="glass-card w-full max-w-md relative animate-in fade-in zoom-in duration-200">
                 <button
                     onClick={onClose}
-                    className="absolute right-4 top-4 text-textSecondary hover:text-textMain transition-colors"
+                    className="absolute right-4 top-4 text-text-secondary hover:text-text-main transition-colors"
                 >
                     <X size={20} />
                 </button>
@@ -44,7 +44,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Amount (₹)</label>
+                        <label className="block text-sm font-medium mb-1 text-text-secondary">Amount (₹)</label>
                         <input
                             type="number"
                             required
@@ -59,7 +59,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Category</label>
+                        <label className="block text-sm font-medium mb-1 text-text-secondary">Category</label>
                         <select
                             className="input-field"
                             value={formData.category}
@@ -70,7 +70,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Date</label>
+                        <label className="block text-sm font-medium mb-1 text-text-secondary">Date</label>
                         <input
                             type="date"
                             required
@@ -81,7 +81,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Description (Optional)</label>
+                        <label className="block text-sm font-medium mb-1 text-text-secondary">Description (Optional)</label>
                         <input
                             type="text"
                             className="input-field"

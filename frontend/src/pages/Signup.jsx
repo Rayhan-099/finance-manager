@@ -18,19 +18,23 @@ const Signup = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center p-4">
-            <div className="w-full max-w-md glass-card flex flex-col items-center">
-                <div className="bg-surface p-4 rounded-full border border-[rgba(222,225,229,0.1)] mb-6 shadow-lg">
-                    <Wallet size={36} className="text-primary" />
+        <div className="min-h-screen flex flex-col justify-center items-center p-4 relative overflow-hidden">
+            {/* Ambient Background Elements */}
+            <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-[#1A1999]/30 rounded-full blur-[100px] -z-10 mix-blend-screen animate-pulse" style={{ animationDuration: '4s' }} />
+            <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-[#FF4C61]/10 rounded-full blur-[100px] -z-10 mix-blend-screen animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
+
+            <div className="w-full max-w-md glass-card flex flex-col items-center relative z-10 border-[rgba(255,255,255,0.05)] shadow-2xl">
+                <div className="bg-surface p-4 rounded-xl border border-[rgba(222,225,229,0.1)] mb-6 shadow-lg -rotate-3">
+                    <Wallet size={36} className="text-primary rotate-3" />
                 </div>
-                <h2 className="text-2xl font-semibold mb-2 text-textMain">Create Account</h2>
-                <p className="text-textSecondary mb-8">Start tracking your financial health</p>
+                <h2 className="text-3xl font-bold mb-2 text-text-main bg-gradient-to-l from-white to-text-secondary text-transparent bg-clip-text">Create Account</h2>
+                <p className="text-text-secondary mb-8 text-center">Start tracking your financial health</p>
 
                 {error && <div className="w-full bg-warning/20 border border-warning text-warning px-4 py-2 rounded-lg mb-4">{error}</div>}
 
-                <form onSubmit={handleSubmit} className="w-full space-y-4">
+                <form onSubmit={handleSubmit} className="w-full space-y-5">
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Full Name</label>
+                        <label className="block text-sm font-medium mb-1.5 text-text-secondary">Full Name</label>
                         <input
                             type="text"
                             required
@@ -41,7 +45,7 @@ const Signup = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Email</label>
+                        <label className="block text-sm font-medium mb-1.5 text-text-secondary">Email</label>
                         <input
                             type="email"
                             required
@@ -52,7 +56,7 @@ const Signup = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Password</label>
+                        <label className="block text-sm font-medium mb-1.5 text-text-secondary">Password</label>
                         <input
                             type="password"
                             required
@@ -63,13 +67,13 @@ const Signup = () => {
                             minLength={6}
                         />
                     </div>
-                    <button type="submit" className="btn-primary w-full mt-6 py-3">
+                    <button type="submit" className="btn-primary w-full mt-8 py-3.5 text-lg font-bold tracking-wide">
                         Create Account
                     </button>
                 </form>
 
-                <p className="mt-6 text-sm text-textSecondary">
-                    Already have an account? <Link to="/login" className="text-primary hover:underline transition-all">Sign in</Link>
+                <p className="mt-8 text-sm text-text-secondary">
+                    Already have an account? <Link to="/login" className="text-primary font-medium hover:text-white transition-colors">Sign in</Link>
                 </p>
             </div>
         </div>
