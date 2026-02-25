@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
-import { Tags, Trash2 } from 'lucide-react';
+import { Tags, Trash2, Filter } from 'lucide-react';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
