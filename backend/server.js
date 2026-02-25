@@ -8,7 +8,10 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://finance-manager-zeta.vercel.app'],
+    credentials: true
+}));
 
 // Conect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
