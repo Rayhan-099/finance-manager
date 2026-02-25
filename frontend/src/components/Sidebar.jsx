@@ -23,7 +23,7 @@ const Sidebar = () => {
                 <div className="w-10 h-10 rounded-xl primary-gradient flex items-center justify-center mr-3 shadow-lg shadow-primary/30">
                     <span className="text-white font-black text-xl tracking-tighter">M</span>
                 </div>
-                <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-text-main to-text-secondary text-transparent bg-clip-text">Moneta</h1>
+                <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-text-main to-text-secondary text-transparent bg-clip-text">Current Capital</h1>
             </div>
 
             {/* Navigation */}

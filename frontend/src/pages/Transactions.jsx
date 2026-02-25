@@ -57,12 +57,13 @@ const Transactions = () => {
 
     const downloadCSV = () => {
         const headers = ['Date', 'Category', 'Description', 'Amount'];
-        const csvContent = [
+        // Adding UTF-8 BOM (\uFEFF) to ensure Excel opens it properly
+        const csvContent = '\uFEFF' + [
             headers.join(','),
             ...filteredTransactions.map(tx => [
                 new Date(tx.date).toLocaleDateString(),
                 `"${tx.category}"`,
-                `"${tx.description || ''}"`,
+                `"${(tx.description || '').replace(/"/g, '""')}"`, // escape quotes within description
                 tx.amount
             ].join(','))
         ].join('\n');
