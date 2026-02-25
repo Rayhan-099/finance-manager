@@ -21,7 +21,11 @@ const UserSchema = new mongoose.Schema({
     customCategories: {
         type: [String],
         default: [],
-    }
+    },
+    categoryBudgets: [{
+        category: String,
+        limit: Number
+    }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -3,9 +3,12 @@ import axios from 'axios';
 import Layout from '../components/Layout';
 import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import { ThemeContext } from '../context/ThemeContext';
+import { AuthContext } from '../context/AuthContext';
+import { AlertCircle } from 'lucide-react';
 
 const Analytics = () => {
     const { isDark } = useContext(ThemeContext);
+    const { user } = useContext(AuthContext);
     const [analyticsData, setAnalyticsData] = useState({ categoryBreakdown: [] });
     const [loading, setLoading] = useState(true);
 
@@ -62,6 +65,58 @@ const Analytics = () => {
                         </div>
                     )}
                 </div>
+            </div>
+
+            {/* Category Budgets (Envelope System) */}
+            <div className="glass-card mb-8">
+                <h3 className="text-xl font-semibold mb-6">Category Budgets (Envelope System)</h3>
+
+                {(!user?.categoryBudgets || user.categoryBudgets.filter(b => b.limit > 0).length === 0) ? (
+                    <div className="flex flex-col items-center justify-center py-8 text-text-secondary">
+                        <p>You haven't set any specific category budgets.</p>
+                        <p className="text-sm mt-1">Visit your Profile to configure spending limits.</p>
+                    </div>
+                ) : (
+                    <div className="space-y-6">
+                        {user.categoryBudgets.filter(b => b.limit > 0).map((budget, idx) => {
+                            const spentObj = analyticsData.categoryBreakdown.find(s => s.name === budget.category);
+                            const spent = spentObj ? spentObj.value : 0;
+                            const progress = Math.min((spent / budget.limit) * 100, 100);
+                            const isOverBudget = spent > budget.limit;
+                            const isNearBudget = spent > budget.limit * 0.8 && !isOverBudget;
+
+                            let progressColor = 'bg-primary';
+                            if (isOverBudget) progressColor = 'bg-danger';
+                            else if (isNearBudget) progressColor = 'bg-warning';
+
+                            return (
+                                <div key={idx} className="space-y-2">
+                                    <div className="flex justify-between items-end">
+                                        <div className="flex items-center">
+                                            <span className="font-medium text-text-main">{budget.category}</span>
+                                            {isOverBudget && <AlertCircle size={16} className="text-danger ml-2" />}
+                                        </div>
+                                        <div className="text-sm">
+                                            <span className={`font-medium ${isOverBudget ? 'text-danger' : 'text-text-main'}`}>₹{spent.toLocaleString()}</span>
+                                            <span className="text-text-secondary"> / ₹{budget.limit.toLocaleString()}</span>
+                                        </div>
+                                    </div>
+                                    <div className="w-full bg-black/10 dark:bg-white/10 rounded-full h-3 overflow-hidden">
+                                        <div
+                                            className={`h-full rounded-full transition-all duration-500 ${progressColor}`}
+                                            style={{ width: `${progress}%` }}
+                                        />
+                                    </div>
+                                    {(isOverBudget || isNearBudget) && (
+                                        <p className={`text-xs ${isOverBudget ? 'text-danger' : 'text-warning'}`}>
+                                            {isOverBudget ? `You are ₹${(spent - budget.limit).toLocaleString()} over budget!` : 'Nearing your budget limit!'}
+                                        </p>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         </Layout>
     );

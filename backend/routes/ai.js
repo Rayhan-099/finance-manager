@@ -3,7 +3,10 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const Expense = require('../models/Expense');
 const User = require('../models/User');
+const multer = require('multer');
 const { GoogleGenAI } = require('@google/genai');
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -66,6 +69,64 @@ Based on this real data, generate a personalized financial health report. Point 
     } catch (err) {
         console.error('Gemini API Error:', err);
         res.status(500).json({ msg: 'Failed to generate AI insights due to a server error. Please try again later.' });
+    }
+});
+
+// @route   POST api/ai/scan-receipt
+// @desc    Scan a receipt using Gemini Vision and extract data
+// @access  Private
+router.post('/scan-receipt', [auth, upload.single('receipt')], async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ msg: 'No image file provided' });
+        }
+
+        const user = await User.findById(req.user.id).select('customCategories');
+        const allCategories = ['Food & Dining', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'Other', ...(user.customCategories || [])];
+
+        const systemPrompt = `You are a financial receipt parser. Extract the following information from the receipt image:
+1. amount (Total amount as a number, e.g., 50.25. Do not include currency symbols)
+2. description (Merchant name or brief description, e.g., "Starbucks")
+3. date (In YYYY-MM-DD format)
+4. category (Must be exactly one of the following: ${allCategories.join(', ')})
+
+Return ONLY a perfectly formatted JSON object with no markdown wrapping, no markdown code blocks, just raw JSON string exactly like this:
+{
+  "amount": 50.25,
+  "description": "Merchant Name",
+  "date": "2023-10-25",
+  "category": "Food & Dining"
+}`;
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: [
+                systemPrompt,
+                {
+                    inlineData: {
+                        mimeType: req.file.mimetype,
+                        data: req.file.buffer.toString('base64')
+                    }
+                }
+            ],
+        });
+
+        let text = response.text.trim();
+        if (text.startsWith('\`\`\`json')) text = text.substring(7);
+        if (text.startsWith('\`\`\`')) text = text.substring(3);
+        if (text.endsWith('\`\`\`')) text = text.substring(0, text.length - 3);
+
+        try {
+            const parsedData = JSON.parse(text.trim());
+            res.json(parsedData);
+        } catch (parseError) {
+            console.error('Failed to parse Gemini JSON:', text);
+            return res.status(500).json({ msg: 'Could not parse receipt data automatically.' });
+        }
+
+    } catch (err) {
+        console.error('Gemini Vision API Error:', err);
+        res.status(500).json({ msg: 'Failed to scan receipt. Please try again or enter manually.' });
     }
 });
 

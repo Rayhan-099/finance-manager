@@ -2,13 +2,16 @@ import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Layout from '../components/Layout';
 import axios from 'axios';
-import { UserCircle, Tags as TagsIcon, Plus, X } from 'lucide-react';
+import { UserCircle, Tags as TagsIcon, Plus, X, Wallet } from 'lucide-react';
+
+const CATEGORIES = ['Food & Dining', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'Other'];
 
 const Profile = () => {
     const { user, fetchUser } = useContext(AuthContext);
     const [name, setName] = useState(user?.name || '');
     const [customCategories, setCustomCategories] = useState(user?.customCategories || []);
     const [newCategory, setNewCategory] = useState('');
+    const [categoryBudgets, setCategoryBudgets] = useState(user?.categoryBudgets || []);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -16,6 +19,7 @@ const Profile = () => {
         if (user) {
             setName(user.name);
             setCustomCategories(user.customCategories || []);
+            setCategoryBudgets(user.categoryBudgets || []);
         }
     }, [user]);
 
@@ -72,6 +76,35 @@ const Profile = () => {
             setLoading(false);
         }
     };
+
+    const handleSaveBudgets = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage('');
+        try {
+            await axios.put('/api/auth/profile', { categoryBudgets });
+            await fetchUser();
+            setMessage('Category budgets updated successfully.');
+        } catch (err) {
+            console.error(err);
+            setMessage('Error updating category budgets.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleBudgetChange = (category, limit) => {
+        setCategoryBudgets(prev => {
+            const existing = prev.find(b => b.category === category);
+            if (existing) {
+                return prev.map(b => b.category === category ? { ...b, limit: Number(limit) } : b);
+            } else {
+                return [...prev, { category, limit: Number(limit) }];
+            }
+        });
+    };
+
+    const allCategories = [...CATEGORIES, ...customCategories];
 
     return (
         <Layout>
@@ -158,6 +191,44 @@ const Profile = () => {
                             <p className="text-text-secondary italic text-center py-4">No custom categories added yet.</p>
                         )}
                     </div>
+                </div>
+
+                {/* Category Budgets */}
+                <div className="glass-card md:col-span-2">
+                    <div className="flex items-center mb-6 text-primary">
+                        <Wallet size={24} className="mr-2" />
+                        <h2 className="text-xl font-bold text-text-main">Category Budgets (Envelope System)</h2>
+                    </div>
+                    <p className="text-sm text-text-secondary mb-6">Set specific monthly spending limits for your categories. Leave at 0 for no limit.</p>
+
+                    <form onSubmit={handleSaveBudgets}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                            {allCategories.map((cat, idx) => {
+                                const currentBudget = categoryBudgets.find(b => b.category === cat)?.limit || '';
+                                return (
+                                    <div key={idx} className="bg-black/5 dark:bg-white/5 p-3 rounded-lg border border-black/10 dark:border-white/10 flex items-center justify-between">
+                                        <span className="font-medium text-text-main text-sm truncate mr-2" title={cat}>{cat}</span>
+                                        <div className="flex items-center w-28 flex-shrink-0">
+                                            <span className="text-text-secondary mr-2 text-sm">₹</span>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                className="input-field py-1 px-2 text-right text-sm"
+                                                placeholder="0"
+                                                value={currentBudget}
+                                                onChange={(e) => handleBudgetChange(cat, e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className="flex justify-end">
+                            <button type="submit" disabled={loading} className="btn-primary">
+                                {loading ? 'Saving...' : 'Save Category Budgets'}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </Layout>

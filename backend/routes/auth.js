@@ -108,11 +108,12 @@ router.put('/budget', auth, async (req, res) => {
 // @desc    Update user profile (name, customCategories)
 // @access  Private
 router.put('/profile', auth, async (req, res) => {
-    const { name, customCategories } = req.body;
+    const { name, customCategories, categoryBudgets } = req.body;
     try {
         const user = await User.findById(req.user.id).select('-password');
         if (name) user.name = name;
         if (customCategories) user.customCategories = customCategories;
+        if (categoryBudgets) user.categoryBudgets = categoryBudgets;
 
         await user.save();
         res.json(user);
