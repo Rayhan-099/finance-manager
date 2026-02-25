@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { ThemeContext } from '../context/ThemeContext';
 import Layout from '../components/Layout';
 import axios from 'axios';
 import { Plus, IndianRupee, TrendingUp, Tags, Target } from 'lucide-react';
@@ -11,6 +12,7 @@ const COLORS = ['#3A41B2', '#1A1999', '#5E65D7', '#868DF0', '#00C896', '#FF4C61'
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
+    const { isDark } = useContext(ThemeContext);
     const [dashboardData, setDashboardData] = useState({ totalSpend: 0, categoryBreakdown: [] });
     const [recentTransactions, setRecentTransactions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -165,8 +167,12 @@ const Dashboard = () => {
                                         ))}
                                     </Pie>
                                     <Tooltip
-                                        contentStyle={{ backgroundColor: '#0F0F12', border: '1px solid rgba(222,225,229,0.1)', borderRadius: '8px' }}
-                                        itemStyle={{ color: '#DEE1E5' }}
+                                        contentStyle={{
+                                            backgroundColor: isDark ? '#0F0F12' : '#FFFFFF',
+                                            border: `1px solid ${isDark ? 'rgba(222,225,229,0.1)' : 'rgba(17,24,39,0.1)'}`,
+                                            borderRadius: '8px'
+                                        }}
+                                        itemStyle={{ color: isDark ? '#DEE1E5' : '#111827' }}
                                     />
                                 </PieChart>
                             </ResponsiveContainer>
@@ -187,7 +193,7 @@ const Dashboard = () => {
                     <div className="flex-1 overflow-y-auto pr-2 space-y-4">
                         {recentTransactions.length > 0 ? (
                             recentTransactions.map((tx) => (
-                                <div key={tx._id} className="group flex justify-between items-center p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/5 hover:border-white/10 hover:shadow-lg transition-all duration-300">
+                                <div key={tx._id} className="group flex justify-between items-center p-4 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-all duration-300">
                                     <div className="flex items-center">
                                         <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white group-hover:shadow-lg transition-all duration-300">
                                             <Tags size={20} />

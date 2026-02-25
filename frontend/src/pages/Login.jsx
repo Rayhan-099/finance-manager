@@ -24,10 +24,10 @@ const Login = () => {
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#00C896]/10 rounded-full blur-[100px] -z-10 mix-blend-screen animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
 
             <div className="w-full max-w-md glass-card flex flex-col items-center relative z-10 border-white/10 shadow-2xl">
-                <div className="bg-surface p-4 rounded-xl border border-white/10 mb-6 shadow-lg rotate-3">
+                <div className="bg-surface p-4 rounded-xl border border-black/10 dark:border-white/10 mb-6 shadow-lg rotate-3">
                     <Wallet size={36} className="text-primary -rotate-3" />
                 </div>
-                <h2 className="text-3xl font-bold mb-2 text-text-main bg-gradient-to-r from-white to-text-secondary text-transparent bg-clip-text">Welcome Back</h2>
+                <h2 className="text-3xl font-bold mb-2 text-text-main bg-gradient-to-r from-black dark:from-white to-text-secondary text-transparent bg-clip-text">Welcome Back</h2>
                 <p className="text-text-secondary mb-8 text-center">Sign in to your intelligent command center</p>
 
                 {error && <div className="w-full bg-warning/20 border border-warning text-warning px-4 py-2 rounded-lg mb-4">{error}</div>}

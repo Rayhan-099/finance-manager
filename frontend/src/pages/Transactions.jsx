@@ -125,7 +125,7 @@ const Transactions = () => {
                 {filteredTransactions.length > 0 ? (
                     <div className="space-y-1">
                         {filteredTransactions.map((tx) => (
-                            <div key={tx._id} className="group flex flex-col sm:flex-row justify-between sm:items-center p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/5 transition-all">
+                            <div key={tx._id} className="group flex flex-col sm:flex-row justify-between sm:items-center p-4 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-all">
                                 <div className="flex items-center mb-3 sm:mb-0">
                                     <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
                                         <Tags size={20} />

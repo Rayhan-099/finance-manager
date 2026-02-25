@@ -36,7 +36,7 @@ const Sidebar = () => {
                             to={item.path}
                             className={`flex items-center relative justify-center md:justify-start px-3 md:px-4 py-2 md:py-3 rounded-xl transition-all duration-300 ${isActive
                                 ? 'bg-primary/10 text-primary font-semibold shadow-lg'
-                                : 'text-text-secondary hover:text-text-main hover:bg-white/5'
+                                : 'text-text-secondary hover:text-text-main hover:bg-black/5 dark:hover:bg-white/5'
                                 }`}
                         >
                             {isActive && (
@@ -57,7 +57,7 @@ const Sidebar = () => {
             <div className="hidden md:block mt-auto p-4 mb-4 space-y-2">
                 <button
                     onClick={toggleTheme}
-                    className="flex items-center justify-between w-full px-4 py-3 text-text-secondary hover:text-text-main transition-colors rounded-lg hover:bg-white/5"
+                    className="flex items-center justify-between w-full px-4 py-3 text-text-secondary hover:text-text-main transition-colors rounded-lg hover:bg-black/5 dark:hover:bg-white/5"
                 >
                     <div className="flex items-center">
                         {isDark ? <Sun size={20} /> : <Moon size={20} />}
