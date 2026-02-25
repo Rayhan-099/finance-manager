@@ -10,8 +10,14 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     origin: ['http://localhost:5173', 'https://finance-manager-zeta.vercel.app'],
-    credentials: true
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-auth-token'],
+    credentials: true,
+    optionsSuccessStatus: 200
 }));
+
+// Additional explicit preflight handling
+app.options('*', cors());
 
 // Conect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
