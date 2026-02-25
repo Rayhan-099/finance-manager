@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Receipt, PieChart, LogOut, Sun, Moon, UserCircle } from 'lucide-react';
+import { LayoutDashboard, Receipt, PieChart, LogOut, Sun, Moon, UserCircle, Sparkles } from 'lucide-react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
@@ -14,6 +14,7 @@ const Sidebar = () => {
         { path: '/', label: 'Overview', icon: <LayoutDashboard size={20} /> },
         { path: '/transactions', label: 'Transactions', icon: <Receipt size={20} /> },
         { path: '/analytics', label: 'Analytics', icon: <PieChart size={20} /> },
+        { path: '/ai', label: 'AI Advisor', icon: <Sparkles size={20} /> },
         { path: '/profile', label: 'Profile', icon: <UserCircle size={20} /> },
     ];
 

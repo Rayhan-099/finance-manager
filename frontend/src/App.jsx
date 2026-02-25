@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Analytics from './pages/Analytics';
 import Profile from './pages/Profile';
+import AIAssistant from './pages/AIAssistant';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
@@ -45,6 +46,11 @@ function App() {
           <Route path="/profile" element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          } />
+          <Route path="/ai" element={
+            <PrivateRoute>
+              <AIAssistant />
             </PrivateRoute>
           } />
           <Route path="*" element={<Navigate to="/" />} />
