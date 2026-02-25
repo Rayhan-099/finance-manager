@@ -38,7 +38,7 @@ const SetBudgetModal = ({ isOpen, onClose, onSuccess }) => {
             <div className="glass-card w-full max-w-md relative animate-in fade-in zoom-in duration-200">
                 <button
                     onClick={onClose}
-                    className="absolute right-4 top-4 text-textSecondary hover:text-textMain transition-colors"
+                    className="absolute right-4 top-4 text-text-secondary hover:text-text-main transition-colors"
                 >
                     <X size={20} />
                 </button>
@@ -47,7 +47,7 @@ const SetBudgetModal = ({ isOpen, onClose, onSuccess }) => {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium mb-1 text-textSecondary">Amount (₹)</label>
+                        <label className="block text-sm font-medium mb-1 text-text-secondary">Amount (₹)</label>
                         <input
                             type="number"
                             required

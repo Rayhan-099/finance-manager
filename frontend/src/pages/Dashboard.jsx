@@ -50,7 +50,7 @@ const Dashboard = () => {
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-3xl font-bold">Overview</h1>
-                    <p className="text-textSecondary mt-1">Hello, {user?.name}. Here's your financial summary.</p>
+                    <p className="text-text-secondary mt-1">Hello, {user?.name}. Here's your financial summary.</p>
                 </div>
                 <div className="flex gap-4">
                     <button onClick={() => setIsBudgetModalOpen(true)} className="btn-outline flex items-center">
@@ -71,7 +71,7 @@ const Dashboard = () => {
                             <IndianRupee className="text-primary" size={28} />
                         </div>
                         <div>
-                            <p className="text-textSecondary font-medium">Total Monthly Spend</p>
+                            <p className="text-text-secondary font-medium">Total Monthly Spend</p>
                             <h2 className="text-5xl font-bold mt-2 font-mono tracking-tight bg-gradient-to-br from-text-main via-white to-text-secondary text-transparent bg-clip-text drop-shadow-sm">
                                 ₹{dashboardData.totalSpend.toLocaleString()}
                             </h2>
@@ -81,7 +81,7 @@ const Dashboard = () => {
 
                 {/* Insight Card: Top Category */}
                 <div className="glass-card flex flex-col justify-between">
-                    <div className="flex items-center text-textSecondary mb-4">
+                    <div className="flex items-center text-text-secondary mb-4">
                         <TrendingUp size={20} className="mr-2" />
                         <span className="font-medium">Top Category</span>
                     </div>
@@ -90,16 +90,16 @@ const Dashboard = () => {
                             <h3 className="text-2xl font-bold text-primary">
                                 {dashboardData.categoryBreakdown.reduce((prev, current) => (prev.value > current.value) ? prev : current).name}
                             </h3>
-                            <p className="text-textSecondary mt-1">Highest spend this month</p>
+                            <p className="text-text-secondary mt-1">Highest spend this month</p>
                         </div>
                     ) : (
-                        <p className="text-textSecondary italic">No data yet</p>
+                        <p className="text-text-secondary italic">No data yet</p>
                     )}
                 </div>
 
                 {/* Insight Card: Budget */}
                 <div className="glass-card flex flex-col justify-between">
-                    <div className="flex items-center text-textSecondary mb-4">
+                    <div className="flex items-center text-text-secondary mb-4">
                         <Target size={20} className="mr-2" />
                         <span className="font-medium">Monthly Budget</span>
                     </div>
@@ -130,12 +130,12 @@ const Dashboard = () => {
                                         style={{ width: `${Math.min(percentUsed, 100)}%` }}
                                     ></div>
                                 </div>
-                                <p className="text-textSecondary mt-2 text-sm">of ₹{user.monthlyBudget.toLocaleString()}</p>
+                                <p className="text-text-secondary mt-2 text-sm">of ₹{user.monthlyBudget.toLocaleString()}</p>
                             </div>
                         );
                     })() : (
                         <div>
-                            <p className="text-textSecondary italic mb-3">No budget set</p>
+                            <p className="text-text-secondary italic mb-3">No budget set</p>
                             <button onClick={() => setIsBudgetModalOpen(true)} className="text-primary text-sm font-medium hover:underline">Set Budget Now</button>
                         </div>
                     )}
@@ -171,7 +171,7 @@ const Dashboard = () => {
                                 </PieChart>
                             </ResponsiveContainer>
                         ) : (
-                            <div className="flex h-full items-center justify-center text-textSecondary flex-col">
+                            <div className="flex h-full items-center justify-center text-text-secondary flex-col">
                                 <PieChart size={48} className="mb-2 opacity-50" />
                                 <p>No expenses logged.</p>
                             </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
                                 </div>
                             ))
                         ) : (
-                            <div className="flex h-full items-center justify-center text-textSecondary">
+                            <div className="flex h-full items-center justify-center text-text-secondary">
                                 <p>No recent activity</p>
                             </div>
                         )}

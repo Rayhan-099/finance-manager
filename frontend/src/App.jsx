@@ -17,12 +17,12 @@ function App() {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div className="min-h-screen bg-background text-textMain flex items-center justify-center">Loading Application...</div>;
+    return <div className="min-h-screen bg-background text-text-main flex items-center justify-center">Loading Application...</div>;
   }
 
   return (
     <Router>
-      <div className="min-h-screen bg-background text-textMain font-sans">
+      <div className="min-h-screen bg-background text-text-main font-sans">
         <Routes>
           <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />

@@ -55,7 +55,7 @@ const Sidebar = () => {
             <div className="hidden md:block mt-auto p-4 mb-4">
                 <button
                     onClick={logout}
-                    className="flex items-center w-full px-4 py-3 text-textSecondary hover:text-warning transition-colors rounded-lg hover:bg-warning/10"
+                    className="flex items-center w-full px-4 py-3 text-text-secondary hover:text-warning transition-colors rounded-lg hover:bg-warning/10"
                 >
                     <LogOut size={20} />
                     <span className="ml-3 font-medium">Log out</span>

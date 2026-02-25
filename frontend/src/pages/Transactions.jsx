@@ -77,7 +77,7 @@ const Transactions = () => {
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center py-12 text-textSecondary">
+                    <div className="text-center py-12 text-text-secondary">
                         <Tags size={48} className="mx-auto mb-4 opacity-50" />
                         <p className="text-lg">No transactions found</p>
                     </div>
