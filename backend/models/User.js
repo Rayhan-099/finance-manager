@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     monthlyBudget: {
         type: Number,
         default: 0,
+    },
+    customCategories: {
+        type: [String],
+        default: [],
     }
 }, { timestamps: true });
 

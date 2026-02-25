@@ -104,4 +104,22 @@ router.put('/budget', auth, async (req, res) => {
     }
 });
 
+// @route   PUT api/auth/profile
+// @desc    Update user profile (name, customCategories)
+// @access  Private
+router.put('/profile', auth, async (req, res) => {
+    const { name, customCategories } = req.body;
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (name) user.name = name;
+        if (customCategories) user.customCategories = customCategories;
+
+        await user.save();
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 module.exports = router;

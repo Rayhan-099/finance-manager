@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../context/AuthContext';
 import { X } from 'lucide-react';
 
 const CATEGORIES = ['Food & Dining', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'Other'];
 
 const AddExpenseModal = ({ isOpen, onClose, onSuccess, initialData = null }) => {
-    const [formData, setFormData] = useState({ amount: '', category: CATEGORIES[0], description: '', date: new Date().toISOString().split('T')[0] });
+    const { user } = useContext(AuthContext);
+    const allCategories = [...CATEGORIES, ...(user?.customCategories || [])];
+
+    const [formData, setFormData] = useState({ amount: '', category: allCategories[0], description: '', date: new Date().toISOString().split('T')[0] });
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -18,10 +22,11 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess, initialData = null }) => 
                     date: new Date(initialData.date).toISOString().split('T')[0]
                 });
             } else {
-                setFormData({ amount: '', category: CATEGORIES[0], description: '', date: new Date().toISOString().split('T')[0] });
+                setFormData({ amount: '', category: allCategories[0], description: '', date: new Date().toISOString().split('T')[0] });
             }
         }
-    }, [isOpen, initialData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen, initialData, allCategories[0]]);
 
     if (!isOpen) return null;
 
@@ -88,7 +93,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess, initialData = null }) => 
                             value={formData.category}
                             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                         >
-                            {CATEGORIES.map(cat => <option key={cat} value={cat} className="bg-background">{cat}</option>)}
+                            {allCategories.map(cat => <option key={cat} value={cat} className="bg-background">{cat}</option>)}
                         </select>
                     </div>
 

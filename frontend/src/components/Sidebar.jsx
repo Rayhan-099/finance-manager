@@ -1,8 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Receipt, PieChart, LogOut, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, Receipt, PieChart, LogOut, Sun, Moon, UserCircle } from 'lucide-react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ThemeContext } from '../context/ThemeContext';
+import { CurrentCapitalLogo } from './Logo';
 
 const Sidebar = () => {
     const location = useLocation();
@@ -13,6 +14,7 @@ const Sidebar = () => {
         { path: '/', label: 'Overview', icon: <LayoutDashboard size={20} /> },
         { path: '/transactions', label: 'Transactions', icon: <Receipt size={20} /> },
         { path: '/analytics', label: 'Analytics', icon: <PieChart size={20} /> },
+        { path: '/profile', label: 'Profile', icon: <UserCircle size={20} /> },
     ];
 
     return (
@@ -20,9 +22,7 @@ const Sidebar = () => {
 
             {/* Logo Area - Hidden on mobile */}
             <div className="hidden md:flex items-center px-8 mb-8">
-                <div className="w-10 h-10 rounded-xl primary-gradient flex items-center justify-center mr-3 shadow-lg shadow-primary/30">
-                    <span className="text-white font-black text-xl tracking-tighter">M</span>
-                </div>
+                <CurrentCapitalLogo className="w-10 h-10 mr-3 text-primary drop-shadow-lg" />
                 <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-text-main to-text-secondary text-transparent bg-clip-text">Current Capital</h1>
             </div>
 
