@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
-import { Tags, Trash2, Filter } from 'lucide-react';
+import AddExpenseModal from '../components/AddExpenseModal';
+import { Tags, Trash2, Filter, Edit2 } from 'lucide-react';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [expenseToEdit, setExpenseToEdit] = useState(null);
 
     const fetchTransactions = async () => {
         try {
@@ -31,6 +34,11 @@ const Transactions = () => {
                 console.error(err);
             }
         }
+    };
+
+    const handleEdit = (tx) => {
+        setExpenseToEdit(tx);
+        setIsEditModalOpen(true);
     };
 
     if (loading) {
@@ -65,13 +73,22 @@ const Transactions = () => {
                                 </div>
                                 <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto">
                                     <p className="font-mono font-bold text-warning text-lg mr-6">-₹{tx.amount}</p>
-                                    <button
-                                        onClick={() => handleDelete(tx._id)}
-                                        className="text-text-secondary hover:text-warning p-2 rounded-lg hover:bg-warning/10 transition-colors"
-                                        title="Delete Expense"
-                                    >
-                                        <Trash2 size={20} />
-                                    </button>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={() => handleEdit(tx)}
+                                            className="text-text-secondary hover:text-primary p-2 rounded-lg hover:bg-primary/10 transition-colors"
+                                            title="Edit Expense"
+                                        >
+                                            <Edit2 size={20} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(tx._id)}
+                                            className="text-text-secondary hover:text-warning p-2 rounded-lg hover:bg-warning/10 transition-colors"
+                                            title="Delete Expense"
+                                        >
+                                            <Trash2 size={20} />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -83,6 +100,16 @@ const Transactions = () => {
                     </div>
                 )}
             </div>
+
+            <AddExpenseModal
+                isOpen={isEditModalOpen}
+                onClose={() => {
+                    setIsEditModalOpen(false);
+                    setExpenseToEdit(null);
+                }}
+                onSuccess={fetchTransactions}
+                initialData={expenseToEdit}
+            />
         </Layout>
     );
 };

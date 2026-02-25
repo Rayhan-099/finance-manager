@@ -1,12 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { X } from 'lucide-react';
 
 const CATEGORIES = ['Food & Dining', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'Other'];
 
-const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
+const AddExpenseModal = ({ isOpen, onClose, onSuccess, initialData = null }) => {
     const [formData, setFormData] = useState({ amount: '', category: CATEGORIES[0], description: '', date: new Date().toISOString().split('T')[0] });
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (isOpen) {
+            if (initialData) {
+                setFormData({
+                    amount: initialData.amount,
+                    category: initialData.category,
+                    description: initialData.description || '',
+                    date: new Date(initialData.date).toISOString().split('T')[0]
+                });
+            } else {
+                setFormData({ amount: '', category: CATEGORIES[0], description: '', date: new Date().toISOString().split('T')[0] });
+            }
+        }
+    }, [isOpen, initialData]);
 
     if (!isOpen) return null;
 
@@ -14,15 +29,23 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post('/api/expenses', {
-                amount: Number(formData.amount),
-                category: formData.category,
-                description: formData.description,
-                date: formData.date
-            });
+            if (initialData) {
+                await axios.put(`/api/expenses/${initialData._id}`, {
+                    amount: Number(formData.amount),
+                    category: formData.category,
+                    description: formData.description,
+                    date: formData.date
+                });
+            } else {
+                await axios.post('/api/expenses', {
+                    amount: Number(formData.amount),
+                    category: formData.category,
+                    description: formData.description,
+                    date: formData.date
+                });
+            }
             onSuccess();
             onClose();
-            setFormData({ amount: '', category: CATEGORIES[0], description: '', date: new Date().toISOString().split('T')[0] });
         } catch (err) {
             console.error(err);
         } finally {
@@ -40,7 +63,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
                     <X size={20} />
                 </button>
 
-                <h2 className="text-2xl font-bold mb-6">Add New Expense</h2>
+                <h2 className="text-2xl font-bold mb-6">{initialData ? 'Edit Expense' : 'Add New Expense'}</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -94,7 +117,7 @@ const AddExpenseModal = ({ isOpen, onClose, onSuccess }) => {
                     <div className="pt-4 flex justify-end gap-3">
                         <button type="button" onClick={onClose} className="btn-outline">Cancel</button>
                         <button type="submit" className="btn-primary" disabled={loading}>
-                            {loading ? 'Adding...' : 'Save Expense'}
+                            {loading ? 'Saving...' : (initialData ? 'Update Expense' : 'Save Expense')}
                         </button>
                     </div>
                 </form>
