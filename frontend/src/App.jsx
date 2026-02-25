@@ -8,6 +8,9 @@ import Transactions from './pages/Transactions';
 import Analytics from './pages/Analytics';
 import Profile from './pages/Profile';
 import AIAssistant from './pages/AIAssistant';
+import axios from 'axios';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
