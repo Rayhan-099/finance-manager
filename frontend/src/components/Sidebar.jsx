@@ -1,11 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Receipt, PieChart, LogOut } from 'lucide-react';
+import { LayoutDashboard, Receipt, PieChart, LogOut, Sun, Moon } from 'lucide-react';
 import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { ThemeContext } from '../context/ThemeContext';
 
 const Sidebar = () => {
     const location = useLocation();
     const { logout } = useContext(AuthContext);
+    const { isDark, toggleTheme } = useContext(ThemeContext);
 
     const navItems = [
         { path: '/', label: 'Overview', icon: <LayoutDashboard size={20} /> },
@@ -52,7 +54,16 @@ const Sidebar = () => {
                 })}
             </nav>
 
-            <div className="hidden md:block mt-auto p-4 mb-4">
+            <div className="hidden md:block mt-auto p-4 mb-4 space-y-2">
+                <button
+                    onClick={toggleTheme}
+                    className="flex items-center justify-between w-full px-4 py-3 text-text-secondary hover:text-text-main transition-colors rounded-lg hover:bg-white/5"
+                >
+                    <div className="flex items-center">
+                        {isDark ? <Sun size={20} /> : <Moon size={20} />}
+                        <span className="ml-3 font-medium">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+                    </div>
+                </button>
                 <button
                     onClick={logout}
                     className="flex items-center w-full px-4 py-3 text-text-secondary hover:text-warning transition-colors rounded-lg hover:bg-warning/10"

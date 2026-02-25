@@ -1,28 +1,51 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #010103;
-  --color-surface: #0F0F12;
-  --color-primary: #3A41B2;
-  --color-primary-dark: #1A1999;
-  --color-success: #00C896;
-  --color-warning: #FF4C61;
-  --color-text-main: #DEE1E5;
-  --color-text-secondary: #9B9AA2;
+  --color-background: var(--bg-main);
+  --color-surface: var(--bg-surface);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-text-main: var(--text-main);
+  --color-text-secondary: var(--text-secondary);
 
   --font-sans: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 
 @layer base {
+  :root {
+    --bg-main: #F9FAFB;
+    --bg-surface: #FFFFFF;
+    --primary: #4F46E5;
+    /* Indigo 600 - brighter for light mode */
+    --primary-dark: #3730A3;
+    --success: #10B981;
+    --warning: #EF4444;
+    --text-main: #111827;
+    --text-secondary: #4B5563;
+  }
+
+  .dark {
+    --bg-main: #010103;
+    --bg-surface: #0F0F12;
+    --primary: #3A41B2;
+    --primary-dark: #1A1999;
+    --success: #00C896;
+    --warning: #FF4C61;
+    --text-main: #DEE1E5;
+    --text-secondary: #9B9AA2;
+  }
+
   body {
-    @apply bg-background text-text-main antialiased font-sans;
+    @apply bg-background text-text-main antialiased font-sans transition-colors duration-300;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-surface border border-white/10 backdrop-blur-xl rounded-xl p-6 shadow-2xl;
+    @apply bg-surface border-white/10 dark:border-white/10 border-black/5 dark:bg-surface backdrop-blur-xl rounded-xl p-6 shadow-xl dark:shadow-2xl border transition-colors duration-300;
   }
 
   .primary-gradient {
@@ -30,8 +53,8 @@
   }
 
   .btn-primary {
-    @apply bg-gradient-to-br from-[#5E65D7] via-[#3A41B2] to-[#1A1999] text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95;
-    box-shadow: 0 0 20px rgba(58, 65, 178, 0.6);
+    @apply bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95;
+    box-shadow: 0 0 15px rgba(58, 65, 178, 0.4);
   }
 
   .btn-primary:hover {
@@ -39,7 +62,11 @@
   }
 
   .btn-outline {
-    @apply bg-transparent border border-white/20 text-text-main px-4 py-2 rounded-lg font-medium transition-all duration-300 active:scale-95 hover:border-text-secondary;
+    @apply bg-transparent border border-black/10 dark:border-white/20 text-text-main px-4 py-2 rounded-lg font-medium transition-all duration-300 active:scale-95 hover:border-text-secondary hover:bg-black/5 dark:hover:bg-white/5;
+  }
+
+  .btn-outline:hover {
+    /* Removed inline rgba background to use tailwind classes above */
   }
 
   .btn-outline:hover {
@@ -47,7 +74,7 @@
   }
 
   .input-field {
-    @apply bg-white/5 border border-white/10 text-text-main rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all w-full;
+    @apply bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-text-main rounded-lg px-4 py-3 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-300 w-full;
   }
 
   .input-field:focus {
