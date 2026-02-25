@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Layout from '../components/Layout';
 import AddExpenseModal from '../components/AddExpenseModal';
-import { Tags, Trash2, Filter, Edit2 } from 'lucide-react';
+import { Tags, Trash2, Edit2, Download } from 'lucide-react';
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
@@ -55,6 +55,28 @@ const Transactions = () => {
             return 0;
         });
 
+    const downloadCSV = () => {
+        const headers = ['Date', 'Category', 'Description', 'Amount'];
+        const csvContent = [
+            headers.join(','),
+            ...filteredTransactions.map(tx => [
+                new Date(tx.date).toLocaleDateString(),
+                `"${tx.category}"`,
+                `"${tx.description || ''}"`,
+                tx.amount
+            ].join(','))
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'transactions.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (loading) {
         return <Layout><div className="flex h-full items-center justify-center">Loading Data...</div></Layout>;
     }
@@ -88,6 +110,14 @@ const Transactions = () => {
                         <option value="amount_desc" className="bg-background">Amount (Highest)</option>
                         <option value="amount_asc" className="bg-background">Amount (Lowest)</option>
                     </select>
+
+                    <button
+                        onClick={downloadCSV}
+                        className="btn-outline flex items-center py-2"
+                        title="Export to CSV"
+                    >
+                        <Download size={18} className="mr-2 sm:hidden md:block lg:mr-2" /> <span className="hidden lg:block">Export</span>
+                    </button>
                 </div>
             </div>
 
