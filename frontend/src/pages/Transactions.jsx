@@ -9,6 +9,10 @@ const Transactions = () => {
     const [loading, setLoading] = useState(true);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [expenseToEdit, setExpenseToEdit] = useState(null);
+    const [filterCategory, setFilterCategory] = useState('All');
+    const [sortBy, setSortBy] = useState('date_desc');
+
+    const CATEGORIES = ['Food & Dining', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Shopping', 'Health', 'Other'];
 
     const fetchTransactions = async () => {
         try {
@@ -41,26 +45,56 @@ const Transactions = () => {
         setIsEditModalOpen(true);
     };
 
+    const filteredTransactions = transactions
+        .filter(tx => filterCategory === 'All' || tx.category === filterCategory)
+        .sort((a, b) => {
+            if (sortBy === 'date_desc') return new Date(b.date) - new Date(a.date);
+            if (sortBy === 'date_asc') return new Date(a.date) - new Date(b.date);
+            if (sortBy === 'amount_desc') return b.amount - a.amount;
+            if (sortBy === 'amount_asc') return a.amount - b.amount;
+            return 0;
+        });
+
     if (loading) {
         return <Layout><div className="flex h-full items-center justify-center">Loading Data...</div></Layout>;
     }
 
     return (
         <Layout>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold">Transactions</h1>
                     <p className="text-text-secondary mt-1">Review all your past expenses</p>
                 </div>
-                <button className="btn-outline flex items-center">
-                    <Filter size={20} className="mr-2" /> <span>Filter</span>
-                </button>
+                <div className="flex flex-wrap gap-3 w-full sm:w-auto">
+                    <select
+                        className="input-field py-2 text-sm min-w-[150px]"
+                        value={filterCategory}
+                        onChange={(e) => setFilterCategory(e.target.value)}
+                    >
+                        <option value="All" className="bg-background">All Categories</option>
+                        {CATEGORIES.map(cat => (
+                            <option key={cat} value={cat} className="bg-background">{cat}</option>
+                        ))}
+                    </select>
+
+                    <select
+                        className="input-field py-2 text-sm min-w-[160px]"
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                    >
+                        <option value="date_desc" className="bg-background">Date (Newest)</option>
+                        <option value="date_asc" className="bg-background">Date (Oldest)</option>
+                        <option value="amount_desc" className="bg-background">Amount (Highest)</option>
+                        <option value="amount_asc" className="bg-background">Amount (Lowest)</option>
+                    </select>
+                </div>
             </div>
 
             <div className="glass-card mb-8 p-1">
-                {transactions.length > 0 ? (
+                {filteredTransactions.length > 0 ? (
                     <div className="space-y-1">
-                        {transactions.map((tx) => (
+                        {filteredTransactions.map((tx) => (
                             <div key={tx._id} className="group flex flex-col sm:flex-row justify-between sm:items-center p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/5 transition-all">
                                 <div className="flex items-center mb-3 sm:mb-0">
                                     <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mr-4 group-hover:bg-primary group-hover:text-white transition-colors">
