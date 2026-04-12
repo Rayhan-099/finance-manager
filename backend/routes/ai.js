@@ -112,9 +112,16 @@ Return ONLY a perfectly formatted JSON object with no markdown wrapping, no mark
         });
 
         let text = response.text.trim();
-        if (text.startsWith('\`\`\`json')) text = text.substring(7);
-        if (text.startsWith('\`\`\`')) text = text.substring(3);
-        if (text.endsWith('\`\`\`')) text = text.substring(0, text.length - 3);
+        const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+        if (jsonMatch) {
+            text = jsonMatch[1];
+        } else {
+            const firstBrace = text.indexOf('{');
+            const lastBrace = text.lastIndexOf('}');
+            if (firstBrace !== -1 && lastBrace !== -1) {
+                text = text.substring(firstBrace, lastBrace + 1);
+            }
+        }
 
         try {
             const parsedData = JSON.parse(text.trim());

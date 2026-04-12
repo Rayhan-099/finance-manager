@@ -16,8 +16,8 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
-// Additional explicit preflight handling (Express 5 compatible wildcard)
-app.options('(.*)', cors());
+// Additional explicit preflight handling
+// app.options('*', cors());
 
 // Conect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
